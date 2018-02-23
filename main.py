@@ -16,12 +16,8 @@ def main(stdscr):
         CLEAR = 'clear'
 
     def print_haiku(haiku, title):
-        #os.system(CLEAR)
         stdscr.clear()
         text = '\n'.join([' '.join(line) for line in haiku])
-        #print(title)
-        #print('-'*30)
-        #print(text)
         stdscr.addstr(title + '\n')
         stdscr.addstr('-'*30 + '\n')
         stdscr.addstr(text)
@@ -96,8 +92,6 @@ def main(stdscr):
 
         stdscr.getkey()
 
-        break
-
         generate_image([row['title']] + haiku)
         proc = Popen(
             'brother_ql_create -s 62 -m QL-800 --red haiku.png > haiku.bin',
@@ -108,10 +102,7 @@ def main(stdscr):
         proc.wait()
 
         time.sleep(2)
-        print()
-        print("Please press ENTER key")
-        print("to generate another")
-        print("nyc haiku.")
+        stdscr.addstr("\nPlease press ENTER key\nto generate another\nNYC haiku.")
 
         input()
 
