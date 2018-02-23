@@ -22,8 +22,8 @@ def main(stdscr):
         #print(title)
         #print('-'*30)
         #print(text)
-        stdscr.addstr(title)
-        stdscr.addstr('-'*30)
+        stdscr.addstr(title + '\n')
+        stdscr.addstr('-'*30 + '\n')
         stdscr.addstr(text)
         stdscr.refresh()
         time.sleep(random.random()/10)
@@ -93,6 +93,8 @@ def main(stdscr):
         words = ast.literal_eval((row['path']))
         haiku = write_haiku(words, row['title'])
         haiku = [' '.join(line) for line in haiku]
+
+        stdscr.getkey()
 
         break
 
