@@ -100,7 +100,7 @@ def main(stdscr):
         proc.wait()
 
         time.sleep(2)
-        stdscr.addstr("\nPlease press ENTER key\nto generate another\nNYC haiku.")
+        stdscr.addstr("\n\nPlease press ENTER key\nto generate another\nNYC haiku.")
         stdscr.refresh()
         stdscr.getkey()
 
