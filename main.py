@@ -90,8 +90,6 @@ def main(stdscr):
         haiku = write_haiku(words, row['title'])
         haiku = [' '.join(line) for line in haiku]
 
-        stdscr.getkey()
-
         generate_image([row['title']] + haiku)
         proc = Popen(
             'brother_ql_create -s 62 -m QL-800 --red haiku.png > haiku.bin',
@@ -103,7 +101,7 @@ def main(stdscr):
 
         time.sleep(2)
         stdscr.addstr("\nPlease press ENTER key\nto generate another\nNYC haiku.")
-
-        input()
+        stdscr.refresh()
+        stdscr.getkey()
 
 curses.wrapper(main)
