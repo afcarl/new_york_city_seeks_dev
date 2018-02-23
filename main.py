@@ -2,18 +2,21 @@ import ast
 import os
 import time
 import random
+from subprocess import Popen
 
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
-def print_haiku(haiku):
+def print_haiku(haiku, title):
     os.system('cls')
     text = '\n'.join([' '.join(line) for line in haiku])
+    print(title)
+    print('-'*30)
     print(text)
-    time.sleep(random.random()/1000)
+    time.sleep(random.random()/10)
 
-def write_haiku(words):
+def write_haiku(words, title):
     haiku = [[],[],[]]
     i = 0
 
@@ -25,13 +28,13 @@ def write_haiku(words):
         elif word[0] == '-':
             while (len(haiku[i][-1]) > 0):
                 haiku[i][-1] = haiku[i][-1][:-1]
-                print_haiku(haiku)
+                print_haiku(haiku, title)
             haiku[i].pop()
         else:
             haiku[i].append('')
             for c in word:
                 haiku[i][-1] += c
-                print_haiku(haiku)
+                print_haiku(haiku, title)
 
     return haiku
 
@@ -76,12 +79,14 @@ df = pd.read_csv('results_filtered/results_test_edited.csv')
 
 for i,row in df.sample(frac=1).iterrows():
     words = ast.literal_eval((row['path']))
-    haiku = write_haiku(words)
+    haiku = write_haiku(words, row['title'])
     haiku = [' '.join(line) for line in haiku]
 
     generate_image([row['title']] + haiku)
-    os.system('brother_ql_create -s 62 -m QL-800 --red haiku.png > haiku.bin')
-    os.system('lp -d ql-800 haiku.bin')
+    proc = Popen('brother_ql_create -s 62 -m QL-800 --red haiku.png > haiku.bin')
+    proc.wait()
+    proc = Popen('lp -d ql-800 haiku.bin')
+    proc.wait()
 
     time.sleep(2)
     print()
