@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
 def print_haiku(haiku, title):
-    os.system('cls')
+    os.system('clear')
     text = '\n'.join([' '.join(line) for line in haiku])
     print(title)
     print('-'*30)
