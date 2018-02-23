@@ -25,6 +25,7 @@ def main(stdscr):
         stdscr.addstr(title)
         stdscr.addstr('-'*30)
         stdscr.addstr(text)
+        stdscr.refresh()
         time.sleep(random.random()/10)
 
     def write_haiku(words, title):
