@@ -7,14 +7,10 @@ from subprocess import Popen, PIPE
 
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
+import RPi.GPIO as GPIO
 import textwrap
 
 def main(stdscr):
-    if os.name == 'nt':
-        CLEAR = 'cls'
-    else:
-        CLEAR = 'clear'
-
     def print_haiku(haiku, title):
         stdscr.clear()
         text = '\n'.join([' '.join(line) for line in haiku])
@@ -83,6 +79,9 @@ def main(stdscr):
 
         im.save('haiku.png')
 
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
     df = pd.read_csv('results_filtered/results_test_edited.csv')
 
     for i,row in df.sample(frac=1).iterrows():
@@ -100,8 +99,13 @@ def main(stdscr):
         proc.wait()
 
         time.sleep(2)
-        stdscr.addstr("\n\nPlease press ENTER key\nto generate another\nNYC haiku.")
+        stdscr.addstr("\n\nPlease press the button\nto generate another\nNYC haiku.")
         stdscr.refresh()
-        stdscr.getkey()
+        #stdscr.getkey()
+
+        while True:
+            if GPIO.input(18) == False:
+                break
+
 
 curses.wrapper(main)
