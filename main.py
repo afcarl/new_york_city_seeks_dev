@@ -91,7 +91,7 @@ def main(stdscr):
 
         generate_image([row['title']] + haiku)
         proc = Popen(
-            'brother_ql_create -s 62 -m QL-800 --red haiku.png > haiku.bin',
+            'brother_ql_create -s 62 -m QL-800 haiku.png > haiku.bin',
             shell=True
         )
         proc.wait()
