@@ -82,7 +82,7 @@ def main(stdscr):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    df = pd.read_csv('results_filtered/results_test_edited.csv')
+    df = pd.read_csv('haikus.csv')
 
     for i,row in df.sample(frac=1).iterrows():
         words = ast.literal_eval((row['path']))
