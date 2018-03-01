@@ -84,28 +84,29 @@ def main(stdscr):
 
     df = pd.read_csv('haikus.csv')
 
-    for i,row in df.sample(frac=1).iterrows():
-        words = ast.literal_eval((row['path']))
-        haiku = write_haiku(words, row['title'])
-        haiku = [' '.join(line) for line in haiku]
+    while True:
+        for i,row in df.sample(frac=1).iterrows():
+            words = ast.literal_eval((row['path']))
+            haiku = write_haiku(words, row['title'])
+            haiku = [' '.join(line) for line in haiku]
 
-        generate_image([row['title']] + haiku)
-        proc = Popen(
-            'brother_ql_create -s 62 -m QL-800 haiku.png > haiku.bin',
-            shell=True
-        )
-        proc.wait()
-        proc = Popen('lp -d ql-800 haiku.bin', shell=True, stdout=PIPE, stderr=PIPE)
-        proc.wait()
+            generate_image([row['title']] + haiku)
+            proc = Popen(
+                'brother_ql_create -s 62 -m QL-800 haiku.png > haiku.bin',
+                shell=True
+            )
+            proc.wait()
+            proc = Popen('lp -d ql-800 haiku.bin', shell=True, stdout=PIPE, stderr=PIPE)
+            proc.wait()
 
-        time.sleep(2)
-        stdscr.addstr("\n\nPlease press the button\nto generate another\nNYC haiku.")
-        stdscr.refresh()
-        #stdscr.getkey()
+            time.sleep(2)
+            stdscr.addstr("\n\nPlease press the button\nto generate another\nNYC haiku.")
+            stdscr.refresh()
+            #stdscr.getkey()
 
-        while True:
-            if GPIO.input(18) == False:
-                break
+            while True:
+                if GPIO.input(18) == False:
+                    break
 
 
 curses.wrapper(main)
